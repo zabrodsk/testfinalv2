@@ -1,6 +1,7 @@
 namespace SpriteKind {
     export const NPC = SpriteKind.create()
 }
+let player1 = 0
 sprites.onOverlap(player1, SpriteKind.Player, function (sprite, otherSprite) {
 	
 })
@@ -8,7 +9,8 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 	
 })
 function startGame () {
-    player1 = sprites.create(img`
+    test = true
+    plyer = sprites.create(img`
         . . . f f f f f f . . . . . . . 
         . f f e e e e f 2 f . . . . . . 
         f f e e e e f 2 2 2 f . . . . . 
@@ -38,7 +40,7 @@ function startGame () {
         . . . . . 5 . . . . . . 
         . . . . . . . . . . . . 
         `, SpriteKind.Ball)
-    controller.moveSprite(player1)
+    controller.moveSprite(myBall)
     ai1 = sprites.create(img`
         . . . . . . . . f f f f f . . . 
         . . . . . . . f e e e e e f . . 
@@ -57,14 +59,20 @@ function startGame () {
         . . . . . f d d f d d f d d b e 
         . . . . . . f f f f f f f f f f 
         `, SpriteKind.NPC)
-    ai1.follow(myBall, 50)
-    ai1.setVelocity(0, 50)
-    player1.setPosition(20, 77)
+    ai1.setVelocity(0, movmentRequired)
     ai1.setPosition(128, 71)
+    myBall.setPosition(20, 77)
 }
+function aiMovment () {
+    while (test == true) {
+        movmentRequired = myBall.x
+    }
+}
+let movmentRequired = 0
 let ai1: Sprite = null
 let myBall: Ball = null
-let player1 = 0
+let plyer: Sprite = null
+let test = false
 startGame()
 scene.setBackgroundImage(img`
     7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
@@ -188,3 +196,6 @@ scene.setBackgroundImage(img`
     7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
     7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
     `)
+game.onUpdate(function () {
+	
+})
