@@ -20,8 +20,11 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.NPC, function (sprite, otherSpri
         . . . . . . . . . . . . 
         `, SpriteKind.Player)
 })
+function PositionOfTarget () {
+	
+}
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    spawnTarget.setVelocity(50, 50)
+	
 })
 function setTarget () {
     targetTypes = [sprites.create(img`
@@ -72,12 +75,31 @@ function setTarget () {
         4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
         4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
         4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
-        `, SpriteKind.Targets)]
+        `, SpriteKind.Targets), sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Player)]
     spawnTarget = targetTypes[randint(0, 1)]
     sprites.destroy(spawnTarget)
+    PositionOfTarget()
+    spawnTarget.setPosition(141, 15)
 }
-let targetTypes: Sprite[] = []
 let spawnTarget: Sprite = null
+let targetTypes: Sprite[] = []
 let myBall2: Ball = null
 let myBall: Ball = null
 scene.setBackgroundImage(img`
