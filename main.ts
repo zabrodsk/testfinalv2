@@ -1,5 +1,6 @@
 namespace SpriteKind {
     export const NPC = SpriteKind.create()
+    export const Targets = SpriteKind.create()
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Ball, function (sprite, otherSprite) {
     myBall.throwIt()
@@ -20,24 +21,65 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.NPC, function (sprite, otherSpri
         `, SpriteKind.Player)
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-	
+    spawnTarget.setVelocity(50, 50)
 })
-function startGame () {
-    controller.moveSprite(plyr1)
+function setTarget () {
+    targetTypes = [sprites.create(img`
+        ..............................
+        ..........2222222222..........
+        ........221111111111222.......
+        .....22211111111111111122.....
+        ....2111111222222221111112....
+        ...211111221111111122111112...
+        ...211112111111111111221112...
+        ...211112111111111111221112...
+        ...211221111111111111111112...
+        ..21121111112222221111112112..
+        .2111211111211111121111121112.
+        .2112111112111111112111112112.
+        .2112111121111111111211112112.
+        .2112111121111111111211112112.
+        .2112111121111111111211112112.
+        .2112111121111111111211112112.
+        .2112111121111111111211112112.
+        .2112111121111111111211112112.
+        .2112111121111111111211112112.
+        .2112111112111111112111112112.
+        .2111211111221111121111121112.
+        ..21121111112222221111112112..
+        ..21112211111111111111121112..
+        ...211112111111111111221112...
+        ...211112111111111111221112...
+        ...21111122111111112211111....
+        ....2111111222222221111112....
+        .....22111111111111111112.....
+        .......2221111111111222.......
+        ..........2222222222..........
+        `, SpriteKind.Targets), sprites.create(img`
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+        `, SpriteKind.Targets)]
+    spawnTarget = targetTypes[randint(0, 1)]
+    sprites.destroy(spawnTarget)
 }
-controller.player2.onEvent(ControllerEvent.Connected, function () {
-    controller.player2.moveSprite(Plyr2)
-})
-function aiMovment () {
-    for (let index = 0; index < 765; index++) {
-        movmentRequired = myBall.x
-    }
-}
-let movmentRequired = 0
+let targetTypes: Sprite[] = []
+let spawnTarget: Sprite = null
 let myBall2: Ball = null
 let myBall: Ball = null
-let Plyr2: Sprite = null
-let plyr1: Sprite = null
 scene.setBackgroundImage(img`
     7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
     7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
@@ -160,7 +202,7 @@ scene.setBackgroundImage(img`
     7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
     7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
     `)
-plyr1 = sprites.create(img`
+let plyr1 = sprites.create(img`
     . . . f f f f f f . . . . . . . 
     . f f e e e e f 2 f . . . . . . 
     f f e e e e f 2 2 2 f . . . . . 
@@ -178,24 +220,6 @@ plyr1 = sprites.create(img`
     . . . f f f f f f . . . . . . . 
     . . . . f f f . . . . . . . . . 
     `, SpriteKind.Player)
-Plyr2 = sprites.create(img`
-    . . . . . . . . f f f f f . . . 
-    . . . . . . . f e e e e e f . . 
-    . . . . . . f d d d d e e e f . 
-    . . . . . c d f d d f d e e f f 
-    . . . . . c d f d d f d e e d d 
-    5 5 . . c d e e d d d d e e b d 
-    5 5 5 . c d d d d c d d e e b d 
-    5 . 5 5 c c c c c d d e e e f c 
-    5 5 . 5 . f d d d d e e e f f . 
-    5 . . 5 . . f f f f f e e e e f 
-    5 5 . 5 . . . . f f e e e e e e 
-    . 5 5 5 . . . f e e f e e f e e 
-    . . . 5 5 . f e e f e e f e e e 
-    . . . . 5 f b d f d b f b b f e 
-    . . . . . f d d f d d f d d b e 
-    . . . . . . f f f f f f f f f f 
-    `, SpriteKind.NPC)
 myBall = carnival.create(img`
     . . . . . . . . . . . . 
     . . . . . . . . . . . . 
@@ -208,12 +232,8 @@ myBall = carnival.create(img`
     . . . . . 5 . . . . . . 
     . . . . . . . . . . . . 
     `, SpriteKind.Ball)
-Plyr2.setPosition(128, 71)
-myBall.setPosition(20, 77)
-plyr1.setPosition(0, 77)
-plyr1.setStayInScreen(true)
-Plyr2.setStayInScreen(true)
-startGame()
+controller.moveSprite(plyr1)
+setTarget()
 game.onUpdate(function () {
 	
 })
