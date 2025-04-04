@@ -27,7 +27,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 function setTarget () {
     pickTypeTarget = randint(1, 4)
     if (pickTypeTarget == 1) {
-        _1target = sprites.create(img`
+        target1 = sprites.create(img`
             ..............................
             ..........2222222222..........
             ........221111111111222.......
@@ -79,7 +79,7 @@ function setTarget () {
             4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
             `, SpriteKind.Targets)
     } else if (pickTypeTarget == 3) {
-        mySprite3 = sprites.create(img`
+        target3 = sprites.create(img`
             6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
             6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
             6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
@@ -98,7 +98,7 @@ function setTarget () {
             6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
             `, SpriteKind.Player)
     } else {
-        mySprite4 = sprites.create(img`
+        target4 = sprites.create(img`
             . . . . . . . 9 . . . . . . . . 
             . . . . . . . 9 . . . . . . . . 
             . . . . . . . 9 . . . . . . . . 
@@ -117,11 +117,23 @@ function setTarget () {
             . . . . . . . 9 . . . . . . . . 
             `, SpriteKind.Player)
     }
+    targetLocation()
 }
-let mySprite4: Sprite = null
-let mySprite3: Sprite = null
+function targetLocation () {
+    if (pickTypeTarget == 1) {
+        target1.setPosition(119, 40)
+    } else if (pickTypeTarget == 2) {
+        target2.setPosition(121, 51)
+    } else if (pickTypeTarget == 3) {
+        target3.setPosition(130, 84)
+    } else if (pickTypeTarget == 4) {
+        target4.setPosition(124, 49)
+    }
+}
+let target4: Sprite = null
+let target3: Sprite = null
 let target2: Sprite = null
-let _1target: Sprite = null
+let target1: Sprite = null
 let pickTypeTarget = 0
 let myBall2: Ball = null
 let myBall: Ball = null
@@ -278,7 +290,5 @@ myBall = carnival.create(img`
     . . . . . . . . . . . . 
     `, SpriteKind.Ball)
 controller.moveSprite(plyr1)
+plyr1.setStayInScreen(true)
 setTarget()
-game.onUpdate(function () {
-	
-})
