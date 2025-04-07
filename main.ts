@@ -3,31 +3,35 @@ namespace SpriteKind {
     export const Targets = SpriteKind.create()
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Ball, function (sprite, otherSprite) {
-    myBall.throwIt()
+    myBall.setTraceMulti(carnival.Tracers.Full)
+    Player_touching_ball = true
+    myBall.controlBallWithArrowKeys()
+    controller.moveSprite(plyr1, 0, 0)
 })
-sprites.onOverlap(SpriteKind.Player, SpriteKind.NPC, function (sprite, otherSprite) {
-    myBall.throwIt()
-    myBall2 = carnival.create(img`
-        . . . . . . . . . . . . 
-        . . . . . . . . . . . . 
-        . . . . . 5 . . . . . . 
-        . . . 5 5 5 5 5 . . . . 
-        . . . 5 5 5 5 5 . . . . 
-        . . 5 5 5 5 5 5 5 . . . 
-        . . . 5 5 5 5 5 . . . . 
-        . . . 5 5 5 5 5 . . . . 
-        . . . . . 5 . . . . . . 
-        . . . . . . . . . . . . 
-        `, SpriteKind.Player)
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    controller.moveSprite(plyr1, 100, 100)
 })
+function Target_location () {
+    if (pickTypeTarget == 1) {
+        _1target.setPosition(118, 58)
+    } else if (pickTypeTarget == 2) {
+        target2.setPosition(118, 58)
+    } else if (pickTypeTarget == 3) {
+        Target_3.setPosition(132, 98)
+    } else {
+        Target_4.setPosition(132, 98)
+    }
+}
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-	
+    if (Player_touching_ball == true) {
+        myBall.throwIt()
+    }
 })
 // this function spawns in the target
 function setTarget () {
     pickTypeTarget = randint(1, 4)
     if (pickTypeTarget == 1) {
-        target1 = sprites.create(img`
+        _1target = sprites.create(img`
             ..............................
             ..........2222222222..........
             ........221111111111222.......
@@ -79,7 +83,7 @@ function setTarget () {
             4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
             `, SpriteKind.Targets)
     } else if (pickTypeTarget == 3) {
-        target3 = sprites.create(img`
+        Target_3 = sprites.create(img`
             6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
             6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
             6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
@@ -98,7 +102,7 @@ function setTarget () {
             6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
             `, SpriteKind.Player)
     } else {
-        target4 = sprites.create(img`
+        Target_4 = sprites.create(img`
             . . . . . . . 9 . . . . . . . . 
             . . . . . . . 9 . . . . . . . . 
             . . . . . . . 9 . . . . . . . . 
@@ -117,26 +121,23 @@ function setTarget () {
             . . . . . . . 9 . . . . . . . . 
             `, SpriteKind.Player)
     }
-    targetLocation()
+    Target_location()
 }
-function targetLocation () {
-    if (pickTypeTarget == 1) {
-        target1.setPosition(119, 40)
-    } else if (pickTypeTarget == 2) {
-        target2.setPosition(121, 51)
-    } else if (pickTypeTarget == 3) {
-        target3.setPosition(130, 84)
-    } else if (pickTypeTarget == 4) {
-        target4.setPosition(124, 49)
-    }
+function start (haveTheyPlayedBefore: boolean) {
+	
 }
-let target4: Sprite = null
-let target3: Sprite = null
+let Target_4: Sprite = null
+let Target_3: Sprite = null
 let target2: Sprite = null
-let target1: Sprite = null
+let _1target: Sprite = null
 let pickTypeTarget = 0
-let myBall2: Ball = null
+let Player_touching_ball = false
 let myBall: Ball = null
+let plyr1: Sprite = null
+scene.setBackgroundColor(15)
+game.showLongText("Hello, welcome to tennis but you shoot at target.", DialogLayout.Full)
+game.showLongText("Firstly, have you played before/" + " do you want the instructions?", DialogLayout.Full)
+start(game.ask("Yes or no"))
 scene.setBackgroundImage(img`
     7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
     7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
@@ -259,7 +260,7 @@ scene.setBackgroundImage(img`
     7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
     7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
     `)
-let plyr1 = sprites.create(img`
+plyr1 = sprites.create(img`
     . . . f f f f f f . . . . . . . 
     . f f e e e e f 2 f . . . . . . 
     f f e e e e f 2 2 2 f . . . . . 
@@ -289,6 +290,9 @@ myBall = carnival.create(img`
     . . . . . 5 . . . . . . 
     . . . . . . . . . . . . 
     `, SpriteKind.Ball)
-controller.moveSprite(plyr1)
-plyr1.setStayInScreen(true)
+controller.moveSprite(plyr1, 100, 100)
 setTarget()
+myBall.setPosition(23, 66)
+game.onUpdate(function () {
+	
+})
