@@ -17,6 +17,11 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         myBall.throwIt()
     }
 })
+info.onCountdownEnd(function () {
+    if (info.score() == 0) {
+        game.gameOver(false)
+    }
+})
 function Target_location () {
     if (pickTypeTarget == 1) {
         _1target.setPosition(118, 58)
@@ -129,7 +134,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite2, otherSp
     game.setGameOverEffect(true, effects.confetti)
 })
 function FansCheers () {
-    for (let index = 0; index < 4; index++) {
+    for (let index = 0; index < 5; index++) {
         ListOfCheers = [
         "Good Job.",
         "Lets gooo.",
@@ -137,7 +142,15 @@ function FansCheers () {
         "Keep going",
         "Never back down and never give up."
         ]
-        cheer1 = ListOfCheers[randint(0, 4)]
+        cheer1 = ListOfCheers[randint(1, 3)]
+        whichFan = randint(1, 3)
+        if (whichFan == 1) {
+            Fan1.sayText(cheer1)
+        } else if (whichFan == 2) {
+            Fan2.sayText(cheer1)
+        } else if (whichFan == 3) {
+            Fan3.sayText(cheer1)
+        }
         pause(1000)
     }
 }
@@ -197,6 +210,7 @@ function Fans () {
         . . f f f f f f f f f f f f f . 
         `, SpriteKind.Player)
     fansPosition()
+    FansCheers()
 }
 function start (haveTheyPlayedBefore: boolean) {
     if (haveTheyPlayedBefore) {
@@ -235,6 +249,7 @@ let mySprite: Sprite = null
 let Fan3: Sprite = null
 let Fan2: Sprite = null
 let Fan1: Sprite = null
+let whichFan = 0
 let cheer1 = ""
 let ListOfCheers: string[] = []
 let Target_4: Sprite = null
@@ -402,16 +417,12 @@ myBall = carnival.create(img`
     . . . . . . . . . . . . 
     `, SpriteKind.Ball)
 controller.moveSprite(plyr1, 100, 100)
-setTarget()
-Fans()
 myBall.setPosition(23, 66)
 info.setScore(0)
 plyr1.setStayInScreen(true)
-game.onUpdateInterval(5000, function () {
-    if (info.score() == 0) {
-        game.gameOver(false)
-    }
-})
+info.startCountdown(20)
+setTarget()
+Fans()
 game.onUpdateInterval(1000, function () {
     Fan1.sayText(cheer1)
 })
