@@ -1,6 +1,7 @@
 namespace SpriteKind {
     export const NPC = SpriteKind.create()
     export const Targets = SpriteKind.create()
+    export const Target = SpriteKind.create()
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Ball, function (sprite, otherSprite) {
     myBall.setTraceMulti(carnival.Tracers.Full)
@@ -10,6 +11,11 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Ball, function (sprite, otherSpr
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     controller.moveSprite(plyr1, 100, 100)
+})
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (Player_touching_ball == true) {
+        myBall.throwIt()
+    }
 })
 function Target_location () {
     if (pickTypeTarget == 1) {
@@ -22,11 +28,6 @@ function Target_location () {
         Target_4.setPosition(132, 98)
     }
 }
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (Player_touching_ball == true) {
-        myBall.throwIt()
-    }
-})
 // this function spawns in the target
 function setTarget () {
     pickTypeTarget = randint(1, 4)
@@ -62,7 +63,7 @@ function setTarget () {
             .....22111111111111111112.....
             .......2221111111111222.......
             ..........2222222222..........
-            `, SpriteKind.Player)
+            `, SpriteKind.Target)
     } else if (pickTypeTarget == 2) {
         target2 = sprites.create(img`
             4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
@@ -81,7 +82,7 @@ function setTarget () {
             4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
             4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
             4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
-            `, SpriteKind.Targets)
+            `, SpriteKind.Target)
     } else if (pickTypeTarget == 3) {
         Target_3 = sprites.create(img`
             6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
@@ -100,7 +101,7 @@ function setTarget () {
             6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
             6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
             6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
-            `, SpriteKind.Player)
+            `, SpriteKind.Target)
     } else {
         Target_4 = sprites.create(img`
             . . . . . . . 9 . . . . . . . . 
@@ -119,13 +120,123 @@ function setTarget () {
             . . . . . . . 9 . . . . . . . . 
             . . . . . . . 9 . . . . . . . . 
             . . . . . . . 9 . . . . . . . . 
-            `, SpriteKind.Player)
+            `, SpriteKind.Target)
     }
     Target_location()
 }
-function start (haveTheyPlayedBefore: boolean) {
-	
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite2, otherSprite2) {
+    game.gameOver(true)
+    game.setGameOverEffect(true, effects.confetti)
+})
+function FansCheers () {
+    for (let index = 0; index < 4; index++) {
+        ListOfCheers = [
+        "Good Job.",
+        "Lets gooo.",
+        "Wooohooo",
+        "Keep going",
+        "Never back down and never give up."
+        ]
+        cheer1 = ListOfCheers[randint(0, 4)]
+        pause(1000)
+    }
 }
+function Fans () {
+    Fan1 = sprites.create(img`
+        . . . . . f f 4 4 f f . . . . . 
+        . . . . f 5 4 5 5 4 5 f . . . . 
+        . . . f e 4 5 5 5 5 4 e f . . . 
+        . . f b 3 e 4 4 4 4 e 3 b f . . 
+        . . f 3 3 3 3 3 3 3 3 3 3 f . . 
+        . f 3 3 e b 3 e e 3 b e 3 3 f . 
+        . f 3 3 f f e e e e f f 3 3 f . 
+        . f b b f b f e e f b f b b f . 
+        . f b b e 1 f 4 4 f 1 e b b f . 
+        f f b b f 4 4 4 4 4 4 f b b f f 
+        f b b f f f e e e e f f f b b f 
+        . f e e f b d d d d b f e e f . 
+        . . e 4 c d d d d d d c 4 e . . 
+        . . e f b d b d b d b b f e . . 
+        . . . f f 1 d 1 d 1 d f f . . . 
+        . . . . . f f b b f f . . . . . 
+        `, SpriteKind.Player)
+    Fan2 = sprites.create(img`
+        . . . . f f f f . . . . . 
+        . . f f f f f f f f . . . 
+        . f f f f f f c f f f . . 
+        f f f f f f c c f f f c . 
+        f f f c f f f f f f f c . 
+        c c c f f f e e f f c c . 
+        f f f f f e e f f c c f . 
+        f f f b f e e f b f f f . 
+        . f 4 1 f 4 4 f 1 4 f . . 
+        . f e 4 4 4 4 4 4 e f . . 
+        . f f f e e e e f f f . . 
+        f e f b 7 7 7 7 b f e f . 
+        e 4 f 7 7 7 7 7 7 f 4 e . 
+        e e f 6 6 6 6 6 6 f e e . 
+        . . . f f f f f f . . . . 
+        . . . f f . . f f . . . . 
+        `, SpriteKind.Player)
+    Fan3 = sprites.create(img`
+        . . . . f f f f f . . . . . . . 
+        . . . f e e e e e f . . . . . . 
+        . . f d d d d e e e f . . . . . 
+        . c d f d d f d e e f f . . . . 
+        . c d f d d f d e e d d f . . . 
+        c d e e d d d d e e b d c . . . 
+        c d d d d c d d e e b d c . . . 
+        c c c c c d d e e e f c . . . . 
+        . f d d d d e e e f f . . . . . 
+        . . f e e e f f e e e f . . . . 
+        . . f f f f f e e e e e f . f f 
+        . . f d b f e e f f e e f . e f 
+        . f f d d f e f f e e e f . e f 
+        . f f f f f f e b b f e f f e f 
+        . f d d f e e e d d b e f f f f 
+        . . f f f f f f f f f f f f f . 
+        `, SpriteKind.Player)
+    fansPosition()
+}
+function start (haveTheyPlayedBefore: boolean) {
+    if (haveTheyPlayedBefore) {
+        game.showLongText("Hello, so you will be playing and the player. Approach the ball and press A to throw it. Do not forget to aim it at the target. After you have thrown the ball press B to move again.", DialogLayout.Full)
+    }
+}
+sprites.onOverlap(SpriteKind.Ball, SpriteKind.Target, function (sprite3, otherSprite3) {
+    info.changeScoreBy(1)
+    sprites.destroy(otherSprite3)
+    sprites.destroy(sprite3)
+    mySprite = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . 5 5 5 5 5 5 5 5 5 5 5 5 . . . 
+        . 5 5 5 5 5 5 5 5 5 5 5 5 . . . 
+        . 5 5 5 5 5 5 5 5 5 5 5 5 . . . 
+        . . 5 5 5 5 5 5 5 5 5 5 5 . . . 
+        . . . 5 5 5 5 5 5 5 5 5 . . . . 
+        . . . . 5 5 5 5 5 5 5 . . . . . 
+        . . . . . 5 5 5 5 5 . . 5 5 . . 
+        . . . . . . 5 5 5 5 5 5 5 . 5 . 
+        . 5 5 5 5 5 5 5 5 5 . . . . 5 . 
+        5 5 . . . . 5 5 5 5 . . 5 5 . . 
+        5 5 . . . 5 5 5 5 5 5 5 5 . . . 
+        . 5 5 5 5 5 5 5 5 5 . . . . . . 
+        . . . . . . 5 5 5 5 . . . . . . 
+        . . . . . . 5 5 5 5 5 . . . . . 
+        . . . 5 5 5 5 5 5 5 5 5 5 5 5 . 
+        `, SpriteKind.Food)
+})
+function fansPosition () {
+    Fan1.setPosition(23, 10)
+    Fan2.setPosition(126, 8)
+    Fan3.setPosition(90, 9)
+}
+let mySprite: Sprite = null
+let Fan3: Sprite = null
+let Fan2: Sprite = null
+let Fan1: Sprite = null
+let cheer1 = ""
+let ListOfCheers: string[] = []
 let Target_4: Sprite = null
 let Target_3: Sprite = null
 let target2: Sprite = null
@@ -292,7 +403,15 @@ myBall = carnival.create(img`
     `, SpriteKind.Ball)
 controller.moveSprite(plyr1, 100, 100)
 setTarget()
+Fans()
 myBall.setPosition(23, 66)
-game.onUpdate(function () {
-	
+info.setScore(0)
+plyr1.setStayInScreen(true)
+game.onUpdateInterval(5000, function () {
+    if (info.score() == 0) {
+        game.gameOver(false)
+    }
+})
+game.onUpdateInterval(1000, function () {
+    Fan1.sayText(cheer1)
 })
