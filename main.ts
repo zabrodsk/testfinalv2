@@ -134,25 +134,23 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite2, otherSp
     game.setGameOverEffect(true, effects.confetti)
 })
 function FansCheers () {
-    for (let index = 0; index < 5; index++) {
-        ListOfCheers = [
-        "Good Job.",
-        "Lets gooo.",
-        "Wooohooo",
-        "Keep going",
-        "Never back down and never give up."
-        ]
-        cheer1 = ListOfCheers[randint(1, 3)]
-        whichFan = randint(1, 3)
-        if (whichFan == 1) {
-            Fan1.sayText(cheer1)
-        } else if (whichFan == 2) {
-            Fan2.sayText(cheer1)
-        } else if (whichFan == 3) {
-            Fan3.sayText(cheer1)
-        }
-        pause(1000)
+    ListOfCheers = [
+    "Good Job.",
+    "Lets gooo.",
+    "Wooohooo",
+    "Keep going",
+    "Never back down and never give up."
+    ]
+    cheer1 = ListOfCheers[randint(0, 4)]
+    colorPick = randint(1, 3)
+    if (colorPick == 1) {
+    	
+    } else if (colorPick == 2) {
+        carnival.addLabelTo(cheer1, carnival.Areas.Top, 6)
+    } else if (colorPick == 3) {
+        carnival.addLabelTo(cheer1, carnival.Areas.Top, 3)
     }
+    pause(1000)
 }
 function Fans () {
     Fan1 = sprites.create(img`
@@ -249,7 +247,7 @@ let mySprite: Sprite = null
 let Fan3: Sprite = null
 let Fan2: Sprite = null
 let Fan1: Sprite = null
-let whichFan = 0
+let colorPick = 0
 let cheer1 = ""
 let ListOfCheers: string[] = []
 let Target_4: Sprite = null
