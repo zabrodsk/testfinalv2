@@ -3,6 +3,15 @@ namespace SpriteKind {
     export const Targets = SpriteKind.create()
     export const Target = SpriteKind.create()
 }
+function targetMovement () {
+    _1target.setPosition(118, 58)
+    for (let index = 0; index < 15; index++) {
+        _1target.setVelocity(0, 50)
+        pause(1000)
+        _1target.setVelocity(0, -50)
+        pause(1000)
+    }
+}
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Ball, function (sprite, otherSprite) {
     myBall.setTraceMulti(carnival.Tracers.Full)
     Player_touching_ball = true
@@ -22,17 +31,6 @@ info.onCountdownEnd(function () {
         game.gameOver(false)
     }
 })
-function Target_location () {
-    if (pickTypeTarget == 1) {
-        _1target.setPosition(118, 58)
-    } else if (pickTypeTarget == 2) {
-        target2.setPosition(118, 58)
-    } else if (pickTypeTarget == 3) {
-        Target_3.setPosition(132, 98)
-    } else {
-        Target_4.setPosition(132, 98)
-    }
-}
 // this function spawns in the target
 function setTarget () {
     pickTypeTarget = randint(1, 4)
@@ -70,7 +68,7 @@ function setTarget () {
             ..........2222222222..........
             `, SpriteKind.Target)
     } else if (pickTypeTarget == 2) {
-        target2 = sprites.create(img`
+        _1target = sprites.create(img`
             4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
             4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
             4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
@@ -89,7 +87,7 @@ function setTarget () {
             4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
             `, SpriteKind.Target)
     } else if (pickTypeTarget == 3) {
-        Target_3 = sprites.create(img`
+        _1target = sprites.create(img`
             6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
             6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
             6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
@@ -108,7 +106,7 @@ function setTarget () {
             6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
             `, SpriteKind.Target)
     } else {
-        Target_4 = sprites.create(img`
+        _1target = sprites.create(img`
             . . . . . . . 9 . . . . . . . . 
             . . . . . . . 9 . . . . . . . . 
             . . . . . . . 9 . . . . . . . . 
@@ -127,30 +125,14 @@ function setTarget () {
             . . . . . . . 9 . . . . . . . . 
             `, SpriteKind.Target)
     }
-    Target_location()
+    targetMovement()
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite2, otherSprite2) {
     game.gameOver(true)
     game.setGameOverEffect(true, effects.confetti)
 })
 function FansCheers () {
-    ListOfCheers = [
-    "Good Job.",
-    "Lets gooo.",
-    "Wooohooo",
-    "Keep going",
-    "Never back down and never give up."
-    ]
-    cheer1 = ListOfCheers[randint(0, 4)]
-    colorPick = randint(1, 3)
-    if (colorPick == 1) {
-    	
-    } else if (colorPick == 2) {
-        carnival.addLabelTo(cheer1, carnival.Areas.Top, 6)
-    } else if (colorPick == 3) {
-        carnival.addLabelTo(cheer1, carnival.Areas.Top, 3)
-    }
-    pause(1000)
+	
 }
 function Fans () {
     Fan1 = sprites.create(img`
@@ -217,6 +199,16 @@ function start (haveTheyPlayedBefore: boolean) {
 }
 sprites.onOverlap(SpriteKind.Ball, SpriteKind.Target, function (sprite3, otherSprite3) {
     info.changeScoreBy(1)
+    ListOfCheers = [
+    "Good Job.",
+    "Lets gooo.",
+    "Wooohooo",
+    "Keep going",
+    "Never back down and never give up."
+    ]
+    cheer1 = ListOfCheers[randint(0, 4)]
+    carnival.addLabelTo(cheer1, carnival.Areas.Top, 6)
+    pause(500)
     sprites.destroy(otherSprite3)
     sprites.destroy(sprite3)
     mySprite = sprites.create(img`
@@ -241,21 +233,17 @@ sprites.onOverlap(SpriteKind.Ball, SpriteKind.Target, function (sprite3, otherSp
 function fansPosition () {
     Fan1.setPosition(23, 10)
     Fan2.setPosition(126, 8)
-    Fan3.setPosition(90, 9)
+    Fan3.setPosition(51, 10)
 }
 let mySprite: Sprite = null
+let cheer1 = ""
+let ListOfCheers: string[] = []
 let Fan3: Sprite = null
 let Fan2: Sprite = null
 let Fan1: Sprite = null
-let colorPick = 0
-let cheer1 = ""
-let ListOfCheers: string[] = []
-let Target_4: Sprite = null
-let Target_3: Sprite = null
-let target2: Sprite = null
-let _1target: Sprite = null
 let pickTypeTarget = 0
 let Player_touching_ball = false
+let _1target: Sprite = null
 let myBall: Ball = null
 let plyr1: Sprite = null
 scene.setBackgroundColor(15)
@@ -419,8 +407,8 @@ myBall.setPosition(23, 66)
 info.setScore(0)
 plyr1.setStayInScreen(true)
 info.startCountdown(20)
-setTarget()
 Fans()
+setTarget()
 game.onUpdateInterval(1000, function () {
     Fan1.sayText(cheer1)
 })
