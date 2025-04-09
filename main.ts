@@ -4,11 +4,11 @@ namespace SpriteKind {
     export const Target = SpriteKind.create()
 }
 function targetMovement () {
-    _1target.setPosition(118, 58)
+    Target1.setPosition(118, 58)
     for (let index = 0; index < 15; index++) {
-        _1target.setVelocity(0, 50)
+        Target1.setVelocity(0, 50)
         pause(1000)
-        _1target.setVelocity(0, -50)
+        Target1.setVelocity(0, -50)
         pause(1000)
     }
 }
@@ -35,7 +35,7 @@ info.onCountdownEnd(function () {
 function setTarget () {
     pickTypeTarget = randint(1, 4)
     if (pickTypeTarget == 1) {
-        _1target = sprites.create(img`
+        Target1 = sprites.create(img`
             ..............................
             ..........2222222222..........
             ........221111111111222.......
@@ -68,7 +68,7 @@ function setTarget () {
             ..........2222222222..........
             `, SpriteKind.Target)
     } else if (pickTypeTarget == 2) {
-        _1target = sprites.create(img`
+        Target1 = sprites.create(img`
             4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
             4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
             4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
@@ -87,7 +87,7 @@ function setTarget () {
             4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
             `, SpriteKind.Target)
     } else if (pickTypeTarget == 3) {
-        _1target = sprites.create(img`
+        Target1 = sprites.create(img`
             6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
             6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
             6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
@@ -106,7 +106,7 @@ function setTarget () {
             6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
             `, SpriteKind.Target)
     } else {
-        _1target = sprites.create(img`
+        Target1 = sprites.create(img`
             . . . . . . . 9 . . . . . . . . 
             . . . . . . . 9 . . . . . . . . 
             . . . . . . . 9 . . . . . . . . 
@@ -243,7 +243,7 @@ let Fan2: Sprite = null
 let Fan1: Sprite = null
 let pickTypeTarget = 0
 let Player_touching_ball = false
-let _1target: Sprite = null
+let Target1: Sprite = null
 let myBall: Ball = null
 let plyr1: Sprite = null
 scene.setBackgroundColor(15)
